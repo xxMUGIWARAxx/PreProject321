@@ -3,10 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Users</title>
+    <link rel="stylesheet" th:href="@{/resources/css/style.css}">
 </head>
 <body>
-<th:block th:each="msg : ${messages}">
-    <h1 th:text="${msg}"></h1>
+<th:block th:each="user : ${messages}">
+    <div>
+        <p>Name: <span th:text="${user.name}"></span></p>
+        <p>Email: <span th:text="${user.email}"></span></p>
+        <a th:href="@{/users/edit(id=${user.id})}">Edit</a>
+
+        <form th:method="DELETE" th:action="@{/users(id=${user.id})}">
+            <input type="submit" value="Delete"/>
+        </form>
+    </div>
+    <hr/>
 </th:block>
+
+<a href="/users/new">Create new person</a>
 </body>
 </html>

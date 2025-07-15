@@ -2,6 +2,7 @@ package web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import web.model.User;
@@ -19,14 +20,14 @@ public class UsersController {
     }
 
     @GetMapping
-    public String allCars(ModelMap model) {
-        model.addAttribute("messages", userService.getAllUsers(5));
+    public String allUsers(ModelMap model) {
+        model.addAttribute("messages", userService.index());
         return "users";
     }
 
     @GetMapping(params = "count")
-    public String printCars(@RequestParam("count") int count, ModelMap model) {
-        model.addAttribute("messages", userService.getAllUsers(count));
+    public String printUsers(@RequestParam("count") int count, ModelMap model) {
+        model.addAttribute("messages", userService.show(count));
         return "users";
     }
 
@@ -41,4 +42,21 @@ public class UsersController {
         return "redirect:/users";
     }
 
+    @GetMapping("/edit")
+    public String edit(Model model, @RequestParam("id") int id) {
+        model.addAttribute("user", userService.show(id));
+        return "edit";
+    }
+
+    @PatchMapping("/edit")
+    public String update(@ModelAttribute("user") User user, @RequestParam("id") int id) {
+        userService.update(id, user);
+        return "redirect:/users";
+    }
+
+    @DeleteMapping()
+    public String delete(@RequestParam("id") int id) {
+        userService.delete(id);
+        return "redirect:/users";
+    }
 }
