@@ -9,7 +9,7 @@ import web.model.User;
 import java.util.List;
 @Repository
 public class UserDaoHibernateImpl implements UserDao {
-    private SessionFactory sessionFactory;
+    private final SessionFactory sessionFactory;
 
     @Autowired
     public UserDaoHibernateImpl(SessionFactory sessionFactory) {
